@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 @Controller
 public class EndPoints {
+    CatServices catObj = new CatServices();
     @GetMapping("/")
     @ResponseBody
     public String frontPage(){
@@ -61,11 +62,25 @@ public class EndPoints {
 
     @GetMapping("/contains")
     @ResponseBody
-    public int contains(@RequestParam char param){
-//contains?Phrase=
-        int charResult = param;
-//        int amountResult = amount;
+    public String contains(@RequestParam char x, @RequestParam int n) throws IOException {
+        CatFact c = catObj.getOne();
 
-        return charResult;
+        int count = 0;
+
+
+        for(int i = 0; i < c.getText().length(); i++){
+            if(c.getText().toLowerCase().charAt(i) == x){
+                count++;
+                //System.out.println(c.getText().charAt(i));
+            }
+        }
+        System.out.println(count);
+
+        if(count == n){
+            return c.getText();
+        }else {
+            return ("Sorry No Luck");
+
+        }
     }
 }
